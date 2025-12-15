@@ -43,16 +43,11 @@ export default function AboutPage() {
 
           <h3 className="text-lg font-semibold mt-2 mb-1">Autor:</h3>
           <p className="mb-1">
-            Imię i nazwisko: <strong>Twoje imię i nazwisko</strong>
+            Imię i nazwisko: <strong>Marcin Pałys</strong>
           </p>
           <p className="mb-4">
-            Numer albumu: <strong>12345</strong>
-          </p>
-
-          <p className="text-sm opacity-70">
-            Projekt został przygotowany w roku akademickim 2024/2025 na potrzeby
-            zajęć laboratoryjnych z programowania frontendu.
-          </p>
+            Numer albumu: <strong>15502</strong>
+          </p>        
         </div>
       </div>
     </div>

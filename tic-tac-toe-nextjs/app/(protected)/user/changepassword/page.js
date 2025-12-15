@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { updatePassword } from "firebase/auth";
+import { updatePassword, signOut } from "firebase/auth";
 import { useAuth } from "@/lib/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function ChangePasswordPage() {
   const { user } = useAuth();
+  const router = useRouter();
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (!user) {
-    // layout (protected) i tak przekieruje niezalogowanego,
-    // więc to tylko zabezpieczenie.
     return null;
   }
 
@@ -19,29 +21,39 @@ export default function ChangePasswordPage() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
-    const newPassword = e.target["newPassword"].value;
-    const repeat = e.target["repeatPassword"].value;
+    const newPassword = e.target.newPassword.value;
+    const repeat = e.target.repeatPassword.value;
 
     if (newPassword.length < 6) {
       setError("Hasło musi mieć co najmniej 6 znaków.");
+      setLoading(false);
       return;
     }
 
     if (newPassword !== repeat) {
       setError("Hasła nie są takie same.");
+      setLoading(false);
       return;
     }
 
     try {
       await updatePassword(user, newPassword);
-      setSuccess("Hasło zostało zmienione.");
-      e.target.reset();
+      setSuccess("Hasło zostało zmienione. Zaloguj się ponownie.");
+
+      // 🔐 wyloguj po zmianie hasła
+      await signOut(user.auth);
+
+      setTimeout(() => {
+        router.push("/user/signin");
+      }, 1500);
     } catch (err) {
       console.error(err);
       setError(
-        "Nie udało się zmienić hasła. Być może sesja wygasła – zaloguj się ponownie."
+        "Nie udało się zmienić hasła. Sesja mogła wygasnąć — zaloguj się ponownie."
       );
+      setLoading(false);
     }
   };
 
@@ -73,6 +85,7 @@ export default function ChangePasswordPage() {
               className="input input-bordered"
               placeholder="min. 6 znaków"
               required
+              disabled={loading}
             />
           </div>
 
@@ -85,11 +98,14 @@ export default function ChangePasswordPage() {
               type="password"
               className="input input-bordered"
               required
+              disabled={loading}
             />
           </div>
 
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Zmień hasło</button>
+            <button className="btn btn-primary" disabled={loading}>
+              {loading ? "Zmienianie..." : "Zmień hasło"}
+            </button>
           </div>
         </form>
       </div>

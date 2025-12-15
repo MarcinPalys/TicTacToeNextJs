@@ -1,65 +1,108 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+const features = [
+  {
+    title: "Uwierzytelnianie",
+    desc: "System rejestracji i logowania oparty na localStorage",
+    icon: "🔐",
+  },
+  {
+    title: "Responsywność",
+    desc: "Dostosowanie do urządzeń mobilnych, tabletów i monitorów",
+    icon: "📱",
+  },
+  {
+    title: "Zapis stanu gry",
+    desc: "Zapisywanie gier lokalnie w przeglądarce (localStorage)",
+    icon: "💾",
+  },
+  {
+    title: "Plansza nxn",
+    desc: "Konfigurowalna wielkość planszy (5x5, 10x10, itp.)",
+    icon: "⭕",
+  },
+  {
+    title: "Konfiguracja wyglądu",
+    desc: "Kolory tła, symboli, krawędzi, rozmiary",
+    icon: "🎨",
+  },
+  {
+    title: "Wykrywanie wygranej",
+    desc: "Automatyczne wykrywanie 5 kolejnych symboli",
+    icon: "🏆",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+
+    <div className="w-full">
+      <style>{`
+  .app-nav, .app-topbar, .app-footer { display: none !important; }
+  .app-main { padding: 0 !important; }
+  .app-container { max-width: none !important; }
+  .app-card { box-shadow: none !important; border: 0 !important; background: transparent !important; }
+`}</style>
+      {/* HERO */}
+      <section className="text-center py-8 md:py-12">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+          Laboratorium 6 - Temat 5
+        </h1>
+        <p className="mt-4 text-base md:text-lg opacity-70">
+          Gra w kółko i krzyżyk na planszy nxn
+        </p>
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="mt-6 flex justify-center gap-4">
+            <Link href="/game" className="btn btn-primary px-8">
+              Graj teraz
+            </Link>
+            <Link href="/about" className="btn btn-outline px-8">
+              O projekcie
+            </Link>
+            </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        
+      </section>
+
+      {/* FEATURE CARDS */}
+      <section className="mt-6 md:mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="card bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition"
+            >
+              <div className="card-body">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{f.icon}</span>
+                  <h3 className="card-title text-lg">{f.title}</h3>
+                </div>
+                <p className="opacity-70">{f.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* LIST BOX */}
+      <section className="mt-8 md:mt-10">
+        <div className="card bg-base-100 border border-base-300 shadow-sm">
+          <div className="card-body">
+            <h3 className="font-bold text-lg">Funkcjonalności gry:</h3>
+
+            <ul className="list-disc pl-6 mt-2 space-y-1 opacity-80">
+              <li>Wstawianie symbolu X lub O w wolnym polu</li>
+              <li>Zapisywanie i wczytywanie stanu gry</li>
+              <li>Wyświetlanie liczby ruchów i wolnych pól</li>
+              <li>Informacja o wygranej lub remisie</li>
+              <li>Blokada ruchu po wygranej</li>
+              <li>Pełna konfiguracja wyglądu planszy</li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
