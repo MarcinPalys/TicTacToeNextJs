@@ -1,106 +1,110 @@
 import Link from "next/link";
 
-const features = [
+const tiles = [
   {
-    title: "Uwierzytelnianie",
-    desc: "System rejestracji i logowania oparty na localStorage",
-    icon: "🔐",
+    title: "Gra Tic-Tac-Toe",
+    desc: "Uruchom nową grę i wybierz rozmiar planszy.",
+    href: "/game",
+    icon: "🎮",
+    variant: "primary",
   },
   {
-    title: "Responsywność",
-    desc: "Dostosowanie do urządzeń mobilnych, tabletów i monitorów",
-    icon: "📱",
+    title: "Zapisane gry",
+    desc: "Przeglądaj i wczytuj zapisane rozgrywki.",
+    href: "/games",
+    icon: "🗂",
+    variant: "base",
   },
   {
-    title: "Zapis stanu gry",
-    desc: "Zapisywanie gier lokalnie w przeglądarce (localStorage)",
-    icon: "💾",
+    title: "Ustawienia",
+    desc: "Zmień wygląd, rozmiar i zasady gry.",
+    href: "/settings",
+    icon: "⚙️",
+    variant: "base",
   },
   {
-    title: "Plansza nxn",
-    desc: "Konfigurowalna wielkość planszy (5x5, 10x10, itp.)",
-    icon: "⭕",
+    title: "Profil",
+    desc: "Zobacz dane konta i ustawienia profilu.",
+    href: "/user/profile",
+    icon: "👤",
+    variant: "base",
   },
   {
-    title: "Konfiguracja wyglądu",
-    desc: "Kolory tła, symboli, krawędzi, rozmiary",
-    icon: "🎨",
+    title: "O aplikacji",
+    desc: "Opis projektu i najważniejsze funkcje.",
+    href: "/about",
+    icon: "ℹ️",
+    variant: "base",
   },
   {
-    title: "Wykrywanie wygranej",
-    desc: "Automatyczne wykrywanie 5 kolejnych symboli",
-    icon: "🏆",
+    title: "Zmień hasło",
+    desc: "Zaktualizuj hasło do swojego konta.",
+    href: "/user/changepassword",
+    icon: "🔑",
+    variant: "warning",
   },
 ];
 
+function TileCard({ title, desc, href, icon, variant }) {
+  const base =
+    "card border border-base-300 bg-base-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40";
+
+  const variants = {
+    primary:
+      "bg-gradient-to-br from-primary to-secondary text-primary-content border-transparent",
+    warning:
+      "bg-gradient-to-br from-warning to-amber-500 text-warning-content border-transparent",
+    base: "bg-base-100 text-base-content",
+  };
+
+  return (
+    <Link href={href} className={`${base} ${variants[variant] ?? variants.base}`}>
+      <div className="card-body">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="card-title text-lg flex items-center gap-2">
+            <span className="text-2xl">{icon}</span>
+            {title}
+          </h3>
+          <span className="badge badge-outline">Wejdź</span>
+        </div>
+        <p className="opacity-80">{desc}</p>
+        <div className="card-actions justify-end mt-2">
+          <span className="btn btn-sm btn-ghost">Otwórz →</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export default function HomePage() {
   return (
-
-
     <div className="w-full">
+      {/* Ukryj nawigację/layout na stronie głównej */}
       <style>{`
-  .app-nav, .app-topbar, .app-footer { display: none !important; }
-  .app-main { padding: 0 !important; }
-  .app-container { max-width: none !important; }
-  .app-card { box-shadow: none !important; border: 0 !important; background: transparent !important; }
-`}</style>
+        .app-nav, .app-topbar, .app-footer { display: none !important; }
+        .app-main { padding: 0 !important; }
+        .app-container { max-width: none !important; }
+        .app-card { box-shadow: none !important; border: 0 !important; background: transparent !important; }
+      `}</style>
+
       {/* HERO */}
-      <section className="text-center py-8 md:py-12">
+      <section className="text-center py-12 md:py-16 px-4">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-          Laboratorium 6 - Temat 5
-        </h1>
-        <p className="mt-4 text-base md:text-lg opacity-70">
-          Gra w kółko i krzyżyk na planszy nxn
-        </p>
-
-        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <div className="mt-6 flex justify-center gap-4">
-            <Link href="/game" className="btn btn-primary px-8">
-              Graj teraz
-            </Link>
-            <Link href="/about" className="btn btn-outline px-8">
-              O projekcie
-            </Link>
-            </div>
+         Gra w kółko i krzyżyk
+        </h1>    
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <Link href="/game" className="btn btn-primary btn-wide">
+            🎮 Graj teraz
+          </Link>       
         </div>
-        
       </section>
 
-      {/* FEATURE CARDS */}
-      <section className="mt-6 md:mt-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="card bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition"
-            >
-              <div className="card-body">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{f.icon}</span>
-                  <h3 className="card-title text-lg">{f.title}</h3>
-                </div>
-                <p className="opacity-70">{f.desc}</p>
-              </div>
-            </div>
+      {/* KAFELKI jako przyciski/linki */}
+      <section className="mt-6 md:mt-10 px-4 md:px-8 pb-12">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tiles.map((t) => (
+            <TileCard key={t.href} {...t} />
           ))}
-        </div>
-      </section>
-
-      {/* LIST BOX */}
-      <section className="mt-8 md:mt-10">
-        <div className="card bg-base-100 border border-base-300 shadow-sm">
-          <div className="card-body">
-            <h3 className="font-bold text-lg">Funkcjonalności gry:</h3>
-
-            <ul className="list-disc pl-6 mt-2 space-y-1 opacity-80">
-              <li>Wstawianie symbolu X lub O w wolnym polu</li>
-              <li>Zapisywanie i wczytywanie stanu gry</li>
-              <li>Wyświetlanie liczby ruchów i wolnych pól</li>
-              <li>Informacja o wygranej lub remisie</li>
-              <li>Blokada ruchu po wygranej</li>
-              <li>Pełna konfiguracja wyglądu planszy</li>
-            </ul>
-          </div>
         </div>
       </section>
     </div>
